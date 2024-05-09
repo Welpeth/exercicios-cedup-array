@@ -3,10 +3,11 @@ import javax.swing.JOptionPane;
 import java.util.Arrays;
 import java.util.Random;
 import java.lang.Math;
+import java.lang.runtime.SwitchBootstraps;
 
 public class App {
     public static void main(String[] args) {
-        exercicio25();
+        exercicio32();
     }
 
     public static void exercicio1() {
@@ -80,15 +81,6 @@ public class App {
             JOptionPane.showMessageDialog(null, "Um deles é par");
         } else if (arr[0] % 2 > 0 && arr[1] % 2 > 0) {
             JOptionPane.showMessageDialog(null, "Ambos os numeros são impares");
-        }
-    }
-
-    public static void teste() {
-        int test[] = new int[6];
-
-        int soma = 0;
-        for (int i = 0; i < test.length; i++) {
-
         }
     }
 
@@ -428,36 +420,23 @@ public class App {
 
     public static void exercicio24() {
         int A[] = { 20, 40, 50, 60 };
-        int B[] = { 10, 45, 50, 60 };
-        int C[] = new int[A.length];
 
         boolean trocou;
+
         do {
             trocou = false;
-            for (int i = 0; i < A.length; i++) {
-                if (B[i] > B[i] * i) {
-                    int temp = B[i];
-                    B[i] = B[i + i];
-                    B[i + i] = temp;
-                    trocou = true;
-                }
-
-                if (A[i] > A[i] * i) {
+            for (int i = 0; i < A.length - 1; i++) {
+                if (A[i] < A[i + 1]) {
                     int temp = A[i];
-                    A[i] = A[i + i];
-                    A[i + i] = temp;
+                    A[i] = A[i + 1];
+                    A[i + 1] = temp;
                     trocou = true;
                 }
             }
         } while (trocou);
 
         for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < B.length; j++) {
-                if (A[i] == B[j]) {
-                    C[j] = B[i];
-                    System.out.println(B[i]);
-                }
-            }
+            System.out.println(A[i]);
         }
     }
 
@@ -539,6 +518,7 @@ public class App {
                 finalNumbers[finalNumbersIndex] = number1;
                 finalNumbersIndex++;
             }
+
         }
 
         for (int number2 : numbers2) {
@@ -616,18 +596,6 @@ public class App {
         }
     }
 
-    public static void exercicio28() {
-        int A[] = { 1, 2, 3, 4, 5, 6 };
-        int B[] = { 10, 20, 40, 50, 60 };
-        int C[] = new int[6];
-
-        String le;
-
-    }
-
-    public static void exercicio29() {
-    }
-
     public static void exercicio30() {
         String[] array = { "laranja", "uva", "melancia", "brabo" };
         String resposta = JOptionPane.showInputDialog("Digite algo:");
@@ -643,5 +611,126 @@ public class App {
         if (!verdadeiro) {
             JOptionPane.showMessageDialog(null, "Tente outro");
         }
+    }
+
+    public static void exercicio31() {
+        Double quilos[] = new Double[1];
+        String le;
+
+        le = JOptionPane.showInputDialog("Qual o peso de seu peixe? ");
+        quilos[0] = Double.parseDouble(le);
+
+        if (quilos[0] <= 50) {
+            JOptionPane.showMessageDialog(null, "O peixe está dentro do peso estipulado");
+        } else if (quilos[0] > 50) {
+            double excesso = quilos[0] - 50;
+            double calculo = excesso * 4.00;
+            JOptionPane.showMessageDialog(null, "O peixe está acima do peso. Você precisará pagar " + calculo + "R$");
+        }
+    }
+
+    public static void exercicio32() {
+        int le = JOptionPane.showConfirmDialog(null, "Você gostaria de comprar tintas?");
+
+        int o;
+        String p;
+
+        if (le == JOptionPane.YES_OPTION) {
+            String brabo = JOptionPane.showInputDialog("Escreva quantos metros quadrados você deseja pintar: ");
+            Double doidinho = Double.parseDouble(brabo);
+
+            p = JOptionPane.showInputDialog(
+                    "Temos tintas de 3,6 ou 18 litros, qual você quer? (1 para 3,6 litros e 2 para 18 litros)");
+            int brabinho = Integer.parseInt(p);
+            switch (brabinho) {
+                case 1:
+                    o = JOptionPane.showConfirmDialog(null, "A tinta de 3,6 litros custa R$25,00, deseja continuar");
+                    if (o == JOptionPane.YES_OPTION) {
+                        Double calculo = doidinho * 0.1;
+                        Double resultado = (doidinho - calculo) + 25;
+                        JOptionPane.showMessageDialog(null, "O preço total vai ser " + resultado + " R$");
+                    } else if (o == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Você escolheu não...");
+                    } else if (o == JOptionPane.CANCEL_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Você cancelou...");
+                    }
+                    break;
+
+                case 2:
+                    o = JOptionPane.showConfirmDialog(null, "A tinta de 3,6 litros custa R$80,00, deseja continuar");
+                    if (o == JOptionPane.YES_OPTION) {
+                        Double bra = doidinho * 1.8;
+                        Double calculo = bra * 0.1;
+                        Double resultado = (doidinho - calculo) * 0.8;
+                        JOptionPane.showMessageDialog(null, "O preço total vai ser " + resultado + " R$");
+                    } else if (o == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Você escolheu não...");
+                    } else if (o == JOptionPane.CANCEL_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Você cancelou...");
+                    }
+                    break;
+            }
+
+        } else if (le == JOptionPane.NO_OPTION) {
+            JOptionPane.showConfirmDialog(null, "Clicou em Não");
+        } else if (le == JOptionPane.CANCEL_OPTION) {
+            System.out.println("Clicou em Cancel");
+        }
+    }
+
+    public static void exercicio33() {
+        String le;
+
+        Double A[] = new Double[2];
+
+        for (int i = 0; i < 2; i++) {
+            le = JOptionPane.showInputDialog("Escreva o preço do " + i + " produto");
+            A[i] = Double.parseDouble(le);
+        }
+
+        if (A[1] < A[0]) {
+            System.out.println("O menor é " + A[1]);
+        } else if (A[0] < A[1]) {
+            System.out.println("O menor é " + A[0]);
+        }
+    }
+
+    public static void exercicio34() {
+        Double products[] = new Double[8];
+        String le;
+
+        for (int i = 0; i < 4; i++) {
+            le = JOptionPane.showInputDialog("Escreva o preço do " + i + " produto");
+            products[i] = Double.parseDouble(le);
+        }
+        for (int i = 0; i < products.length; i++) {
+            if (products[i] > products[i + 1]) {
+                JOptionPane.showMessageDialog(null, products[i]);
+            }
+        }
+    }
+
+    public static void exercicio35() {
+        Double brabo[] = new Double[3];
+        String le;
+
+        for (int i = 0; i < brabo.length; i++) {
+            le = JOptionPane.showInputDialog("Escreva sua " + (i + 1) + " nota");
+            brabo[i] = Double.parseDouble(le);
+        }
+
+        Double calculo = (brabo[0] + brabo[1] + brabo[2]) / 3;
+
+        if (calculo == 10) {
+            JOptionPane.showMessageDialog(null, "Aprovado com Distinção");
+        } else if (calculo >= 7) {
+            JOptionPane.showMessageDialog(null, "Aprovado!");
+        } else if (calculo < 7) {
+            JOptionPane.showMessageDialog(null, "Não aprovado");
+        }
+    }
+
+    public static void exercicio36() {
+
     }
 }
