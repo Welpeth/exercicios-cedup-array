@@ -1,13 +1,15 @@
+import javax.print.attribute.standard.JobHoldUntil;
 import javax.swing.JOptionPane;
-
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.util.Arrays;
 import java.util.Random;
 import java.lang.Math;
 import java.lang.runtime.SwitchBootstraps;
+import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        exercicio32();
+        exercicio50();
     }
 
     public static void exercicio1() {
@@ -631,24 +633,43 @@ public class App {
 
     public static void exercicio32() {
         int le = JOptionPane.showConfirmDialog(null, "Você gostaria de comprar tintas?");
-
         int o;
         String p;
 
         if (le == JOptionPane.YES_OPTION) {
             String brabo = JOptionPane.showInputDialog("Escreva quantos metros quadrados você deseja pintar: ");
-            Double doidinho = Double.parseDouble(brabo);
+            double doidinho = Double.parseDouble(brabo);
 
             p = JOptionPane.showInputDialog(
-                    "Temos tintas de 3,6 ou 18 litros, qual você quer? (1 para 3,6 litros e 2 para 18 litros)");
+                    "Temos tintas de 3,6 e 18 litros, qual você quer? (1 para 3,6 litros e 2 para 18 litros)");
             int brabinho = Integer.parseInt(p);
             switch (brabinho) {
                 case 1:
                     o = JOptionPane.showConfirmDialog(null, "A tinta de 3,6 litros custa R$25,00, deseja continuar");
                     if (o == JOptionPane.YES_OPTION) {
-                        Double calculo = doidinho * 0.1;
-                        Double resultado = (doidinho - calculo) + 25;
-                        JOptionPane.showMessageDialog(null, "O preço total vai ser " + resultado + " R$");
+                        double quantidadeDeTinta = doidinho / 21.6;
+
+                        if (quantidadeDeTinta > 3.6) {
+                            double pri = quantidadeDeTinta - (quantidadeDeTinta * 0.1);
+                            if (pri % 1 != 0) {
+                                pri = pri + 1;
+                            }
+                            double precoTotal = pri * 25;
+                            JOptionPane.showMessageDialog(null,
+                                    "O preço total vai ser " + Math.round(precoTotal) + " R$, serão " + Math.round(pri)
+                                            + " latas");
+
+                        } else if (quantidadeDeTinta < 3.6) {
+                            double pri = 1;
+                            if (pri % 1 != 0) {
+                                pri = pri + 1;
+                            }
+                            double precoTotal = pri * 25;
+                            JOptionPane.showMessageDialog(null,
+                                    "O preço total vai ser " + Math.round(precoTotal) + " R$, sera " + Math.round(pri)
+                                            + " lata");
+                        }
+
                     } else if (o == JOptionPane.NO_OPTION) {
                         JOptionPane.showMessageDialog(null, "Você escolheu não...");
                     } else if (o == JOptionPane.CANCEL_OPTION) {
@@ -657,16 +678,57 @@ public class App {
                     break;
 
                 case 2:
-                    o = JOptionPane.showConfirmDialog(null, "A tinta de 3,6 litros custa R$80,00, deseja continuar");
+                    o = JOptionPane.showConfirmDialog(null, "A tinta de 18 litros custa R$80,00, deseja continuar");
                     if (o == JOptionPane.YES_OPTION) {
-                        Double bra = doidinho * 1.8;
-                        Double calculo = bra * 0.1;
-                        Double resultado = (doidinho - calculo) * 0.8;
-                        JOptionPane.showMessageDialog(null, "O preço total vai ser " + resultado + " R$");
+                        double quantidadeDeTinta = doidinho / 108;
+                        double pri;
+                        double precoTotal = 0;
+                        double preco2 = 0;
+
+                        if (quantidadeDeTinta > 18) {
+                            pri = quantidadeDeTinta - (quantidadeDeTinta * 0.1);
+
+                            if (pri % 1 != 0) {
+                                pri = (int) pri + 1;
+                            }
+                            if (precoTotal <= 80) {
+                                preco2 = pri + 0.5 / 18;
+                                precoTotal = 80;
+
+                                JOptionPane.showMessageDialog(null,
+                                        "O preço total vai ser " + precoTotal + " R$, serão "
+                                                + Math.round(preco2));
+                            } else {
+                                preco2 = (pri / 18) + 0.5;
+                                precoTotal = preco2 * 80;
+
+                                JOptionPane.showMessageDialog(null,
+                                        "O preço total vai ser " + precoTotal + " R$, serão "
+                                                + Math.round(preco2)
+                                                + " litros");
+                            }
+                        }
+
+                        else if (quantidadeDeTinta < 18) {
+                            pri = 1;
+
+                            if (pri % 1 != 0) {
+                                pri = (int) pri + 1;
+                            }
+
+                            precoTotal = pri * 80;
+
+                            JOptionPane.showMessageDialog(null,
+                                    "O preço total vai ser " + Math.round(precoTotal) + " R$, sera " + Math.round(pri)
+                                            + " lata");
+                        }
+
                     } else if (o == JOptionPane.NO_OPTION) {
                         JOptionPane.showMessageDialog(null, "Você escolheu não...");
+                        break;
                     } else if (o == JOptionPane.CANCEL_OPTION) {
                         JOptionPane.showMessageDialog(null, "Você cancelou...");
+                        break;
                     }
                     break;
             }
@@ -688,24 +750,25 @@ public class App {
             A[i] = Double.parseDouble(le);
         }
 
-        if (A[1] < A[0]) {
-            System.out.println("O menor é " + A[1]);
-        } else if (A[0] < A[1]) {
-            System.out.println("O menor é " + A[0]);
+        if (A[1] > A[0]) {
+            System.out.println("O maior é " + A[1]);
+        } else if (A[0] > A[1]) {
+            System.out.println("O maior é " + A[0]);
         }
     }
 
     public static void exercicio34() {
-        Double products[] = new Double[8];
+        int products[] = new int[8];
         String le;
 
         for (int i = 0; i < 4; i++) {
             le = JOptionPane.showInputDialog("Escreva o preço do " + i + " produto");
-            products[i] = Double.parseDouble(le);
+            products[i] = Integer.parseInt(le);
         }
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] > products[i + 1]) {
-                JOptionPane.showMessageDialog(null, products[i]);
+        for (int i = 0; i < 5; i++) {
+            if (products[i + 1] > products[i]) {
+                JOptionPane.showMessageDialog(null, "O menor valor é " + products[i]);
+                break;
             }
         }
     }
@@ -731,6 +794,368 @@ public class App {
     }
 
     public static void exercicio36() {
+        double valor[] = { 280, 750, 1500 };
+        String le;
 
+        le = JOptionPane.showInputDialog("Escreva  o seu salário");
+        double salaryReceived = Double.parseDouble(le);
+
+        if (salaryReceived <= valor[0]) {
+            double reajuste = salaryReceived * 0.2;
+            JOptionPane.showMessageDialog(null,
+                    "O salário de " + salaryReceived + "com o reajuste de 20%, ficando " + (reajuste + salaryReceived));
+        } else if (salaryReceived >= valor[0] && salaryReceived <= valor[1]) {
+            double reajuste = salaryReceived * 0.15;
+            JOptionPane.showMessageDialog(null,
+                    "O salário de " + salaryReceived + "com o reajuste de 15%, ficando " + (reajuste + salaryReceived));
+        } else if (salaryReceived >= valor[1] && salaryReceived <= valor[2]) {
+            double reajuste = salaryReceived * 0.1;
+            JOptionPane.showMessageDialog(null,
+                    "O salário de " + salaryReceived + "com o reajuste de 10%, ficando " + (reajuste + salaryReceived));
+        }
+    }
+
+    public static void exercicio37() {
+        String diasDaSem[] = { " ", "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" };
+        String resposta = JOptionPane.showInputDialog("Escreva um número (1 a 7)");
+        int escolha = Integer.parseInt(resposta);
+
+        Boolean verdadeiro = false;
+
+        for (int i = 1; i < diasDaSem.length; i++) {
+            if (escolha == i) {
+                JOptionPane.showMessageDialog(null, "A palavra é: " + diasDaSem[i] + " na posição " + i);
+                verdadeiro = true;
+                break;
+            }
+        }
+        if (!verdadeiro) {
+            JOptionPane.showMessageDialog(null, "Valor inválido");
+        }
+    }
+
+    public static void exercicio38() {
+        String le = JOptionPane.showInputDialog("Escreva suas horas trabalhadas");
+        double horas = Double.parseDouble(le);
+
+        le = JOptionPane.showInputDialog("Escreva quanto você recebe por hora");
+        double precoporHoras = Double.parseDouble(le);
+
+        double salario = horas * precoporHoras;
+        double descontos = (salario * 0.1) + (salario * 0.11);
+        double total = salario - descontos;
+
+        if (total <= 900) {
+            JOptionPane.showMessageDialog(null, "Isento " + total + " R$");
+        } else if (total > 900 && total <= 1500) {
+            double IR = salario * 0.05;
+            JOptionPane.showMessageDialog(null, "Desconto de 5% " + (total - IR) + " R$");
+        } else if (total > 1500 && total <= 2500) {
+            double IR = salario * 0.1;
+            JOptionPane.showMessageDialog(null, "Desconto de 10% " + (total - IR) + " R$");
+        } else if (total > 2500) {
+            double IR = salario * 0.2;
+            JOptionPane.showMessageDialog(null, "Desconto de 20% " + (total - IR) + " R$");
+        }
+    }
+
+    public static void exercicio39() {
+        String le;
+        String string;
+
+        le = JOptionPane
+                .showInputDialog("Voce quer Alcool ou Gasolina? O litro de alcool custa R$ 1,90 e o de Gasolina 2,50");
+
+        string = JOptionPane.showInputDialog("Escreva quantos litros voce deseja colocar");
+        double combustivel = Double.parseDouble(string);
+
+        if (le.equals("Alcool") || le.equals("alcool")) {
+            if (combustivel <= 20) {
+                double preco = (1.9 * combustivel) - combustivel * 0.03;
+                JOptionPane.showMessageDialog(null, "preco do alcool e " + preco + " R$, para " + combustivel + "L");
+            } else if (combustivel > 20) {
+                double preco = (1.9 * combustivel) - combustivel * 0.05;
+                JOptionPane.showMessageDialog(null, "o preco do alcool e " + preco + " R$, para " + combustivel + "L");
+            }
+        }
+
+        if (le.equals("Gasolina") || le.equals("gasolina")) {
+            if (combustivel <= 20) {
+                double preco = (2.5 * combustivel) - combustivel * 0.04;
+                JOptionPane.showMessageDialog(null,
+                        "o preco da gasolina e " + preco + " R$, para " + combustivel + "L");
+            } else if (combustivel > 20) {
+                double preco = (2.5 * combustivel) - combustivel * 0.06;
+                JOptionPane.showMessageDialog(null,
+                        "o preco da gasolina e " + preco + " R$, para " + combustivel + "L");
+            }
+        }
+    }
+
+    public static void exercicio40() {
+        int contador = 0;
+
+        String p1 = JOptionPane.showInputDialog("Telefonou para a vítima?");
+
+        if (p1.equals("S")) {
+            contador++;
+        }
+
+        String p2 = JOptionPane.showInputDialog("Esteve no local do crime?");
+        if (p2.equals("S")) {
+            contador++;
+        }
+
+        String p3 = JOptionPane.showInputDialog("Mora perto da vítima?");
+        if (p3.equals("S")) {
+            contador++;
+        }
+
+        String p4 = JOptionPane.showInputDialog("Devia para a vítima?");
+        if (p4.equals("S")) {
+            contador++;
+        }
+
+        String p5 = JOptionPane.showInputDialog("Já trabalhou com a vítima?");
+        if (p5.equals("S")) {
+            contador++;
+        }
+
+        if (contador == 2) {
+            JOptionPane.showMessageDialog(null, "Voce e suspeito");
+        } else if (contador == 3 || contador == 4) {
+            JOptionPane.showMessageDialog(null, "Voce e cumplice!");
+        } else if (contador == 5) {
+            JOptionPane.showMessageDialog(null, "Voce e o assassino!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Voce e inocente");
+        }
+    }
+
+    public static void exercicio41() {
+        String le;
+        int num[] = new int[14];
+
+        for (int i = 0; i < 5; i++) {
+            le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + " numero");
+            num[i] = Integer.parseInt(le);
+        }
+
+        int total = 0;
+
+        for (int j = 0; j < 6; j++) {
+            total += num[j];
+        }
+        JOptionPane.showMessageDialog(null, total);
+    }
+
+    public static void exercicio42() {
+        String le;
+        Boolean trueOrFalse = true;
+        int soma = 0;
+
+        le = JOptionPane.showInputDialog("Escreva quantos numeros voce vai utilizar");
+        int N = Integer.parseInt(le);
+
+        int arr[] = new int[N + 10];
+
+        while (trueOrFalse) {
+            for (int i = 0; i < N; i++) {
+                le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + " numero");
+                arr[i] = Integer.parseInt(le);
+                soma += arr[i];
+            }
+            break;
+        }
+        int media = soma / N;
+        JOptionPane.showMessageDialog(null, media);
+    }
+
+    public static void exercicio43() {
+        String le;
+        Boolean trueOrFalse = true;
+        int contador = 0;
+
+        le = JOptionPane.showInputDialog("Escreva quantos numeros voce vai utilizar");
+        int N = Integer.parseInt(le);
+
+        int arr[] = new int[N + 10];
+
+        while (trueOrFalse) {
+            for (int i = 0; i < N; i++) {
+                le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + " numero");
+                arr[i] = Integer.parseInt(le);
+            }
+            break;
+        }
+        for (int i = 0; i < N; i++) {
+            if (arr[i] % 2 == 0) {
+                contador++;
+            }
+        }
+        JOptionPane.showMessageDialog(null, contador);
+    }
+
+    public static void exercicio44() {
+        String le;
+        Boolean trueOrFalse = true;
+
+        le = JOptionPane.showInputDialog("Escreva quantos numeros voce vai utilizar");
+        int N = Integer.parseInt(le);
+
+        int arr[] = new int[N + 10];
+
+        while (trueOrFalse) {
+            for (int i = 0; i < N; i++) {
+                le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + " numero");
+                arr[i] = Integer.parseInt(le);
+            }
+            break;
+        }
+        for (int i = 0; i < N; i++) {
+            if (arr[i] % 2 != 0) {
+                contador++;
+            }
+        }
+    }
+
+    public static void exercicio45() {
+        String le;
+        Boolean trueOrFalse = true;
+        int contador = 0;
+        int contadorImp = 0;
+
+        le = JOptionPane.showInputDialog("Escreva quantos numeros voce vai utilizar");
+        int N = Integer.parseInt(le);
+
+        int arr[] = new int[N + 10];
+
+        while (trueOrFalse) {
+            for (int i = 0; i < N; i++) {
+                le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + " numero");
+                arr[i] = Integer.parseInt(le);
+            }
+            break;
+        }
+        for (int i = 0; i < N; i++) {
+            if (arr[i] % 2 != 0) {
+                contador++;
+            }
+        }
+        for (int i = 0; i < N; i++) {
+            if (arr[i] % 2 == 0) {
+                contadorImp++;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Tem " + contador + " numeros impares");
+        JOptionPane.showMessageDialog(null, "Tem " + contadorImp + " numeros pares");
+    }
+
+    public static void exercicio46() {
+        String le = JOptionPane.showInputDialog("Escreva quantos números você vai utilizar");
+        int N = Integer.parseInt(le);
+        int soma = 0;
+        int arr[] = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            le = JOptionPane.showInputDialog("Digite o " + i + "º, número");
+            arr[i] = Integer.parseInt(le);
+            soma += arr[i];
+        }
+
+        int menor = arr[0];
+        int maior = arr[0];
+
+        for (int j = 1; j < N; j++) {
+            if (arr[j] < menor) {
+                menor = arr[j];
+            }
+        }
+
+        for (int k = 1; k < N; k++) {
+            if (arr[k] > maior) {
+                maior = arr[k];
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "O maior número é " + maior);
+        JOptionPane.showMessageDialog(null, "O menor número é " + menor);
+        JOptionPane.showMessageDialog(null, "A soma dos números é " + soma);
+
+    }
+
+    public static void exercicio47() {
+        String le = JOptionPane.showInputDialog("Escreva o 1º número inteiro");
+        int N = Integer.parseInt(le);
+
+        le = JOptionPane.showInputDialog("Escreva o 2º número inteiro");
+        int num = Integer.parseInt(le);
+
+        if (N - num > 0) {
+            for (int i = num; i <= N; i++) {
+                JOptionPane.showMessageDialog(null, i);
+            }
+        } else if (num - N > 0) {
+            for (int i = N; i <= num; i++) {
+                JOptionPane.showMessageDialog(null, i);
+            }
+        }
+    }
+
+    public static void exercicio48() {
+        String le;
+        int N[] = new int[11];
+
+        for (int i = 0; i <= 10; i++) {
+            le = JOptionPane.showInputDialog("Escreva o " + i + "º, número");
+            N[i] = Integer.parseInt(le);
+        }
+
+        for (int j = 0; j <= 10; j++) {
+            JOptionPane.showMessageDialog(null, N[10 - j]);
+        }
+    }
+
+    public static void exercicio49() {
+        double soma = 0;
+        String le;
+        double arr[] = new double[5];
+
+        for (int i = 0; i <= 4; i++) {
+            le = JOptionPane.showInputDialog("Escreva o " + i + "º número");
+            arr[i] = Double.parseDouble(le);
+            soma += arr[i];
+        }
+
+        for (int j = 0; j <= 4; j++) {
+            JOptionPane.showMessageDialog(null, "As notas são " + arr[j]);
+        }
+
+        double media = soma / 4;
+
+        JOptionPane.showMessageDialog(null, "A média é " + Math.round(media));
+    }
+
+    public static void exercicio50() {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Integer> par = new ArrayList<>();
+        ArrayList<Integer> impar = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            String le = JOptionPane.showInputDialog("Escreva o " + (i + 1) + "º número");
+            int num = Integer.parseInt(le);
+            numbers.add(num);
+
+            if (num % 2 == 0) {
+                par.add(num);
+            } else {
+                impar.add(num);
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Lista dos números: " + numbers);
+        JOptionPane.showMessageDialog(null, "Lista dos números pares: " + par);
+        JOptionPane.showMessageDialog(null, "Lista dos números ímpares: " + impar);
     }
 }
