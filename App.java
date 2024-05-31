@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        exercicio50();
+        exercicio38();
     }
 
     public static void exercicio1() {
@@ -671,7 +671,8 @@ public class App {
                         }
 
                     } else if (o == JOptionPane.NO_OPTION) {
-                        JOptionPane.showMessageDialog(null, "Você escolheu não...");
+                        JOptionPane.showMessageDialog(
+                                null, "Você escolheu não...");
                     } else if (o == JOptionPane.CANCEL_OPTION) {
                         JOptionPane.showMessageDialog(null, "Você cancelou...");
                     }
@@ -758,19 +759,19 @@ public class App {
     }
 
     public static void exercicio34() {
-        int products[] = new int[8];
+        int products[] = new int[3];
         String le;
+        int maisBarato = 0;
 
-        for (int i = 0; i < 4; i++) {
-            le = JOptionPane.showInputDialog("Escreva o preço do " + i + " produto");
+        for (int i = 0; i < products.length; i++) {
+            le = JOptionPane.showInputDialog("Escreva o preço do " + (i + 1) + " produto");
             products[i] = Integer.parseInt(le);
-        }
-        for (int i = 0; i < 5; i++) {
-            if (products[i + 1] > products[i]) {
-                JOptionPane.showMessageDialog(null, "O menor valor é " + products[i]);
-                break;
+
+            if (products[i] < products[maisBarato]) {
+                maisBarato = i;
             }
         }
+        JOptionPane.showMessageDialog(null, "O mais barato é " + products[maisBarato]);
     }
 
     public static void exercicio35() {
@@ -1089,7 +1090,7 @@ public class App {
         String le = JOptionPane.showInputDialog("Escreva o 1º número inteiro");
         int N = Integer.parseInt(le);
 
-        le = JOptionPane.showInputDialog("Escreva o 2º número inteiro");
+        le = JOptionPane.showInputDialog("Escreva o 2 numero inteiro");
         int num = Integer.parseInt(le);
 
         if (N - num > 0) {
